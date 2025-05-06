@@ -4,3 +4,4 @@ Backend para um aplicativo de flashcards desenvolvido para a cadeira DLSC817 - D
 # pacotes:
 1. django
 2. djangorestframework
+3. pillow
