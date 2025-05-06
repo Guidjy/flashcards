@@ -76,3 +76,18 @@ def criar_deck(request):
     else:
         return Response({'deckCriado': DeckSerializer(novo_deck).data})
     
+
+@csrf_exempt
+@api_view(['POST'])
+def deletar_deck(request):
+    nome = request.data.get('nome')
+    
+    try:
+        deck = Deck.objects.get(nome=nome)
+    except Deck.DoesNotExist:
+        return Response({'erro': 'Não existe um deck com esse nome'})
+    
+    deck.delete()
+    return Response({'mensagem': 'Deck deletado com sucesso'})
+
+    
