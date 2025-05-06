@@ -21,6 +21,9 @@ class Deck(models.Model):
 class Tag(models.Model):
     nome = models.CharField(max_length=50)
     
+    def __str__(self):
+        return f'{self.nome}'
+    
 
 class Card(models.Model):
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
@@ -28,3 +31,6 @@ class Card(models.Model):
     tras = models.TextField(max_length=1200)
     imagem = models.ImageField(blank=True, null=True)
     tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    def __str__(self):
+        return f'frente: \"{self.frente}\" / tras: \"{self.tras}\" / deck: {self.deck} / tag: {self.tag}'

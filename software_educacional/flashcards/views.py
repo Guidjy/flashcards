@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
-from .models import User, Deck
-from .serializers import UserSerializer, DeckSerializer
+from .models import User, Deck, Card, Tag
+from .serializers import UserSerializer, DeckSerializer, CardSerializer
 
 
 @csrf_exempt
@@ -85,9 +85,43 @@ def deletar_deck(request):
     try:
         deck = Deck.objects.get(nome=nome)
     except Deck.DoesNotExist:
-        return Response({'erro': 'Não existe um deck com esse nome'})
+        return Response({'erro': 'Não existe um deck com esse nome'}, status=401)
     
     deck.delete()
-    return Response({'mensagem': 'Deck deletado com sucesso'})
+    return Response({'mensagem': 'Deck deletado com sucesso'}, status=200)
 
+
+@csrf_exempt
+@api_view(['POST'])
+def criar_card(request):
+    frente = request.data.get('frente')
+    tras = request.data.get('tras')
+    imagem = request.data.get('imagem')
+    
+    try:
+        deck = Deck.objects.get(nome=request.data.get('deck'))
+    except Deck.DoesNotExist:
+        return Response({'erro': 'Não existe um deck com esse nome'}, status=401)
+    
+    tag = request.data.get('tag')
+    try:
+        tag = Tag.objects.get(nome=tag)
+    except Tag.DoesNotExist:
+        tag = Tag.objects.create(nome=request.data.get('tag'))
+        try:
+            tag.full_clean()
+        except ValidatioError:
+            tag = None
+            
+    novo_card = Card.objects.create(frente=frente, tras=tras, imagem=imagem, deck=deck, tag=tag)
+    try:
+        novo_card.full_clean()
+    except ValidationError:
+        return Response({'erro': 'Credenciais de card inválidos'}, status=400)
+    else:
+        deck.numero_de_cards += 1
+        deck.save()
+        return Response({'mensagem': 'Card criado com sucesso', 'card': CardSerializer(novo_card).data}, status=200)
+    
+    
     
