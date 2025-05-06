@@ -10,7 +10,7 @@ urlpatterns = [
     path('logout/', views.logout_usuario),
     # gerenciamento de decks
     path('criar_deck/', views.criar_deck),
-    path('deletar_deck/', views.deletar_deck),
+    path('deletar_deck/<int:id>', views.deletar_deck),
     # gerenciamento de cards
     path('criar_card/', views.criar_card),
 ]

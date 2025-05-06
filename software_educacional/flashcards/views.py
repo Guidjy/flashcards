@@ -78,14 +78,12 @@ def criar_deck(request):
     
 
 @csrf_exempt
-@api_view(['POST'])
-def deletar_deck(request):
-    nome = request.data.get('nome')
-    
+@api_view(['DELETE'])
+def deletar_deck(request, id):  
     try:
-        deck = Deck.objects.get(nome=nome)
+        deck = Deck.objects.get(id=id)
     except Deck.DoesNotExist:
-        return Response({'erro': 'Não existe um deck com esse nome'}, status=401)
+        return Response({'erro': 'Não foi encontrado um deck com esse id'}, status=401)
     
     deck.delete()
     return Response({'mensagem': 'Deck deletado com sucesso'}, status=200)
@@ -122,6 +120,7 @@ def criar_card(request):
         deck.numero_de_cards += 1
         deck.save()
         return Response({'mensagem': 'Card criado com sucesso', 'card': CardSerializer(novo_card).data}, status=200)
+    
     
     
     

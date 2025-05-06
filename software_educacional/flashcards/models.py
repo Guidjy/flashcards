@@ -15,7 +15,7 @@ class Deck(models.Model):
     numero_de_cards = models.IntegerField(default=0)
     
     def __str__(self):
-        return f'\"{self.nome}\" - criado por {self.criador}'
+        return f'#{self.id}) \"{self.nome}\" - criado por {self.criador}'
     
 
 class Tag(models.Model):
