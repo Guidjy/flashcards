@@ -7,13 +7,6 @@ from .models import User
 from .serializers import UserSerializer
 
 
-@api_view(['GET'])
-def todos_usuarios(request):
-    users = User.objects.all()
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
-
-
 @csrf_exempt
 @api_view(['POST'])
 def registrar_usuario(request):
@@ -59,3 +52,10 @@ def login_usuario(request):
 def logout_usuario(request):
     logout(request)
     return Response({'messagem': 'Logout realizado com sucesso.'})
+
+
+@api_view(['GET'])
+def todos_usuarios(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
