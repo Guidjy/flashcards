@@ -5,7 +5,7 @@ from .serializers import UserSerializer
 
 
 @api_view(['GET'])
-def teste(request):
+def todos_usuarios(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
