@@ -3,8 +3,9 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db import IntegrityError
-from .models import User
-from .serializers import UserSerializer
+from django.core.exceptions import ValidationError
+from .models import User, Deck
+from .serializers import UserSerializer, DeckSerializer
 
 
 @csrf_exempt
@@ -59,3 +60,19 @@ def todos_usuarios(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
+
+
+@csrf_exempt
+@api_view(['POST'])
+def criar_deck(request):
+    nome = request.data.get('nome')
+    criador = request.user
+    novo_deck = Deck.objects.create(nome=nome, criador=criador)
+    
+    try:
+        novo_deck.full_clean()
+    except ValidatioError:
+        return Response({'erro': 'Campos do deck inválidos'}, status=401)
+    else:
+        return Response({'deckCriado': DeckSerializer(novo_deck).data})
+    
