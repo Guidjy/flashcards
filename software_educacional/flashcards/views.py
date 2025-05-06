@@ -122,5 +122,18 @@ def criar_card(request):
         return Response({'mensagem': 'Card criado com sucesso', 'card': CardSerializer(novo_card).data}, status=200)
     
     
+@csrf_exempt
+@api_view(['DELETE'])
+def deletar_card(request, id):  
+    try:
+        card = Card.objects.get(id=id)
+    except Card.DoesNotExist:
+        return Response({'erro': 'Não foi encontrado um card com esse id'}, status=401)
     
+    deck_do_card = Deck.objects.get(id=card.deck.id)
+    deck_do_card.numero_de_cards -= 1
+    deck_do_card.save()
+    
+    card.delete()
+    return Response({'mensagem': 'card deletado com sucesso'}, status=200)
     

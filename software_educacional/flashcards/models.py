@@ -33,4 +33,4 @@ class Card(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self):
-        return f'frente: \"{self.frente}\" / tras: \"{self.tras}\" / deck: {self.deck} / tag: {self.tag}'
+        return f'#{self.id})  frente: \"{self.frente}\" / tras: \"{self.tras}\" / tag: {self.tag}'

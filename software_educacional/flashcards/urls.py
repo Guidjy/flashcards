@@ -13,4 +13,5 @@ urlpatterns = [
     path('deletar_deck/<int:id>', views.deletar_deck),
     # gerenciamento de cards
     path('criar_card/', views.criar_card),
+    path('deletar_card/<int:id>', views.deletar_card),
 ]
