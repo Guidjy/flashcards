@@ -29,7 +29,7 @@ class Card(models.Model):
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
     frente = models.CharField(max_length=280)
     tras = models.TextField(max_length=1200)
-    imagem = models.ImageField(blank=True, null=True)
+    imagem = models.URLField(blank=True, null=True)
     tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self):

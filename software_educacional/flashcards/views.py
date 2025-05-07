@@ -75,6 +75,23 @@ def criar_deck(request):
         return Response({'erro': 'Campos do deck inválidos'}, status=401)
     else:
         return Response({'deckCriado': DeckSerializer(novo_deck).data})
+
+
+@csrf_exempt
+@api_view(['PATCH'])
+def editar_deck(request):
+    deck = request.data.get('id')
+    novo_nome = request.data.get('novoNome')
+    
+    try:
+        deck = Deck.objects.get(id=deck)
+    except Deck.DoesNotExist:
+        return Response({'erro': 'Não foi encontrado um deck com esse id'}, status=401)
+    else:
+        deck.nome = novo_nome
+        deck.save()
+        return Response({'mensagem': 'Deck editado com sucesso'}, status=200)
+    
     
 
 @csrf_exempt
@@ -87,6 +104,21 @@ def deletar_deck(request, id):
     
     deck.delete()
     return Response({'mensagem': 'Deck deletado com sucesso'}, status=200)
+
+
+@csrf_exempt
+@api_view(['GET'])
+def get_deck(request, id):
+    try:
+        deck = Deck.objects.get(id=id)
+    except Deck.DoesNotExist:
+        return Response({'erro': 'Não foi encontrado um deck com esse id'}, status=401)
+    
+    cards_do_deck = Card.objects.filter(deck=deck)
+    cards_do_deck = CardSerializer(cards_do_deck, many=True).data
+    deck = DeckSerializer(deck).data
+    
+    return Response({'deck': deck, 'cardsDoDeck': cards_do_deck}, status=200)
 
 
 @csrf_exempt
@@ -123,6 +155,43 @@ def criar_card(request):
     
     
 @csrf_exempt
+@api_view(['PATCH'])
+def editar_card(request):
+    card = request.data.get('id')
+    nova_frente = request.data.get('novaFrente')
+    nova_tras = request.data.get('novaTras')
+    nova_imagem = request.data.get('novaImagem')
+    nova_tag = request.data.get('novaTag')
+    
+    try:
+        card = Card.objects.get(id=card)
+    except Card.DoesNotExist:
+        return Response({'erro': 'Não existe um card com esse id'}, status=400)
+    
+    if nova_frente:
+        card.frente = nova_frente
+    if nova_tras:
+        card.tras = nova_tras
+    if nova_imagem:
+        card.imagem = nova_imagem
+    if nova_tag:
+        try:
+            nova_tag = Tag.objects.get(nome=tag)
+        except Tag.DoesNotExist:
+            nova_tag = Tag.objects.create(nome=request.data.get('tag'))
+            try:
+                nova_tag.full_clean()
+            except ValidatioError:
+                nova_tag = None
+        finally:
+            card.tag = nova_tag
+            
+    card.save()
+    return Response({'mensagem': 'Card editado com sucesso', 'card': CardSerializer(card).data}, status=200)
+        
+
+    
+@csrf_exempt
 @api_view(['DELETE'])
 def deletar_card(request, id):  
     try:
@@ -137,3 +206,14 @@ def deletar_card(request, id):
     card.delete()
     return Response({'mensagem': 'card deletado com sucesso'}, status=200)
     
+
+@csrf_exempt
+@api_view(['GET'])
+def get_card(request, id):
+    try:
+        card = Card.objects.get(id=id)
+    except Card.DoesNotExist:
+        return Response({'erro': 'Não foi encontrado um card com esse id'}, status=401)
+
+    card = CardSerializer(card).data
+    return Response({'card': card})
