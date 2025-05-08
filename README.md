@@ -115,3 +115,17 @@ Deleta um card pelo ID.
 #### `GET /get_card/<id>`
 Retorna um card pelo ID.  
 **Resposta:** JSON com os dados do card.
+
+---
+
+### Estudo
+
+#### `GET /comecar_estudo/<id>`
+Retorna todos os cards do deck com "id"
+**Resposta:** JSON com todos os dados do deck a ser estudado.
+
+#### `PATCH /TERMINAR_ESTUDO`
+Atualiza a ordem dos cards do deck após uma sessão de estudo
+- `id`: int (id do deck sendo estudado)
+- `novaOrdem`: int[] (lista com os ids dos cards)  
+
