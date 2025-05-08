@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -32,6 +33,30 @@ def registrar_usuario(request):
     except Exception as e:
         return Response({'erro': str(e)}, status=400)
     
+    
+@csrf_exempt
+@login_required
+@api_view(['PATCH'])
+def editar_usuario(request):
+    usuario = request.user
+    novo_nome = request.data.get('novoNome')
+    nova_senha = request.data.get('novaSenha')
+    novo_email = request.data.get('novoEmail')
+    nova_imagem = request.data.get('novaImagem')
+    
+    if novo_nome:
+        usuario.username = novo_nome
+    if nova_senha:
+        usuario.password = nova_senha
+    if novo_email:
+        usuario.email = novo_email
+    if nova_imagem:
+        usuario.imagem_de_perfil = nova_imagem
+        
+    usuario.save()
+    
+    return Response({'mensagem': 'usuario editado com sucesso', 'usuario': UserSerializer(usuario).data})
+    
 
 @csrf_exempt
 @api_view(['POST'])
@@ -49,10 +74,18 @@ def login_usuario(request):
 
 
 @csrf_exempt
-@api_view(['POST'])
+@login_required
+@api_view(['GET'])
 def logout_usuario(request):
     logout(request)
     return Response({'messagem': 'Logout realizado com sucesso.'})
+
+
+@login_required
+@api_view(['GET'])
+def perfil_usuario(request):
+    usuario = UserSerializer(request.user)
+    return Response(usuario.data)
 
 
 @api_view(['GET'])

@@ -8,8 +8,10 @@ urlpatterns = [
     path('', views.todos_usuarios),
     # registro, login e logout
     path('registrar/', views.registrar_usuario),
+    path('editar_usuario/', views.editar_usuario),
     path('login/', views.login_usuario),
     path('logout/', views.logout_usuario),
+    path('perfil', views.perfil_usuario),
     # gerenciamento de decks
     path('criar_deck/', views.criar_deck),
     path('editar_deck/', views.editar_deck),
