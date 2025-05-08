@@ -9,6 +9,8 @@ from .models import User, Deck, Card, Tag
 from .serializers import UserSerializer, DeckSerializer, CardSerializer
 
 
+# usuários
+
 @csrf_exempt
 @api_view(['POST'])
 def registrar_usuario(request):
@@ -95,6 +97,8 @@ def todos_usuarios(request):
     return Response(serializer.data)
 
 
+# Deck
+
 @csrf_exempt
 @api_view(['POST'])
 def criar_deck(request):
@@ -153,6 +157,8 @@ def get_deck(request, id):
     
     return Response({'deck': deck, 'cardsDoDeck': cards_do_deck}, status=200)
 
+
+# Card
 
 @csrf_exempt
 @api_view(['POST'])
@@ -250,3 +256,43 @@ def get_card(request, id):
 
     card = CardSerializer(card).data
     return Response({'card': card})
+
+
+# Estudo
+
+@login_required
+@api_view(['GET'])
+def comecar_estudo(request, id):
+    try:
+        deck = Deck.objects.get(id=id)
+    except Deck.DoesNotExist:
+        return Response ({'erro': 'Não existe um deck com esse id'})
+        
+    cards = Card.objects.filter(deck=deck)
+    
+    if len(deck.ordem_dos_cards['ordem']) == 0:
+        for card in cards:
+            deck.ordem_dos_cards['ordem'].append(card.id)
+        deck.save()
+    
+    ordem = deck.ordem_dos_cards['ordem']
+    cards_ordenados = sorted(cards, key=lambda card: ordem.index(card.id))
+    
+    return Response(CardSerializer(cards_ordenados, many=True).data)
+
+
+@login_required
+@api_view(['PATCH'])
+def terminar_estudo(request):
+    try:
+        deck = Deck.objects.get(id=request.data.get('id'))
+    except Deck.DoesNotExist:
+        return Response ({'erro': 'Não existe um deck com esse id'})
+    
+    nova_ordem = request.data.get('novaOrdem')
+    deck.ordem_dos_cards['ordem'] = nova_ordem
+    deck.save()
+    
+    return Response({'mensagem': 'estudo encerrado com sucesso'})
+
+    

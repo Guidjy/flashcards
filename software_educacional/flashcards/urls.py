@@ -22,4 +22,7 @@ urlpatterns = [
     path('editar_card/', views.editar_card),
     path('deletar_card/<int:id>', views.deletar_card),
     path('get_card/<int:id>', views.get_card),
+    # realização de estudo
+    path('comecar_estudo/<int:id>', views.comecar_estudo),
+    path('terminar_estudo/', views.terminar_estudo),
 ]
