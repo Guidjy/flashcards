@@ -34,7 +34,7 @@ Registra um novo usuário.
 - `senha`: string (obrigatório)
 - `confirmacaoSenha`: string (obrigatório)
 - `email`: string (opcional)
-- `imagemDePerfil`: file (opcional)  
+- `imagemDePerfil`: url (opcional)  
 **Resposta:** Mensagem de sucesso ou erro.
 
 #### `POST /login/`
@@ -47,6 +47,13 @@ Realiza login de um usuário.
 #### `POST /logout/`
 Realiza logout do usuário autenticado.  
 **Resposta:** Mensagem de sucesso.
+
+#### `POST /editar_usuario/`
+Permite editar os dados do usuário atual
+- `novoNome`: string
+- `novaSenha`: string
+- `novoEmail`: string
+- `novaImagem`: url
 
 ---
 
