@@ -44,7 +44,7 @@ Realiza login de um usuário.
 - `senha`: string  
 **Resposta:** Mensagem de sucesso ou erro.
 
-#### `POST /logout/`
+#### `GET /logout/`
 Realiza logout do usuário autenticado.  
 **Resposta:** Mensagem de sucesso.
 
@@ -54,6 +54,10 @@ Permite editar os dados do usuário atual
 - `novaSenha`: string
 - `novoEmail`: string
 - `novaImagem`: url
+- **Resposta:** Mensagem de sucesso e dados do usuário editado
+
+#### `GET /perfil/`
+Retorna dados sobre o usuário atual
 
 ---
 
