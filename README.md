@@ -121,7 +121,7 @@ Retorna um card pelo ID.
 ### Estudo
 
 #### `GET /comecar_estudo/<id>`
-Retorna todos os cards do deck com "id"
+Retorna todos os cards do deck de "id"
 **Resposta:** JSON com todos os dados do deck a ser estudado.
 
 #### `PATCH /TERMINAR_ESTUDO`
