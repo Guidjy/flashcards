@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    imagem_de_perfil = models.ImageField(blank=True, null=True)
+    imagem_de_perfil = models.URLField(blank=True, null=True, default="https://static.vecteezy.com/system/resources/previews/013/360/247/non_2x/default-avatar-photo-icon-social-media-profile-sign-symbol-vector.jpg")
     
     def __str__(self):
         return self.username
