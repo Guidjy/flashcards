@@ -12,11 +12,12 @@ Backend para um aplicativo de flashcards desenvolvido para a cadeira DLSC817 - D
 #### para rodar o  programa, siga as seguintes instruções:
 
 1. Baixe o código fonte ou faça o pull 
-2. faça cd para o diretório do projeto (deve ver flashcards, software_educacional, db.sqlite3 e manage.py)
-3. inicialize um ambiente virtual de python, ative-o e baixe os pacotes:
+2. inicialize um ambiente virtual de python, ative-o e baixe os pacotes:
     #### `pip install django djangorestframework django-cors-headers pillow`
+3. faça cd para o diretório do projeto (deve ver flashcards, software_educacional, db.sqlite3 e manage.py)
 4. execute o seguinte comando: 
     #### `python manage.py runserver`
+5. Faça as requisiçoes para o endereço "127.0.0.1:8000/"
 
 ## APIs
 
