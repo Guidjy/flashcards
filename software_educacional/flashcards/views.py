@@ -158,6 +158,14 @@ def get_deck(request, id):
     return Response({'deck': deck, 'cardsDoDeck': cards_do_deck}, status=200)
 
 
+@csrf_exempt
+@api_view(['GET'])
+def todos_decks(request):
+    decks = Deck.objects.all()
+    serializer = DeckSerializer(decks, many=True)
+    return Response(serializer.data)
+
+
 # Card
 
 @csrf_exempt
