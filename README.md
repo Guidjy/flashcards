@@ -19,6 +19,8 @@ Backend para um aplicativo de flashcards desenvolvido para a cadeira DLSC817 - D
     #### `python manage.py runserver`
 5. Faça as requisiçoes para o endereço "127.0.0.1:8000/"
 
+obs: se visitar 127.0.0.1:8000/admin, e logar com nome: "guidjy" e senha: "craft22@" da pra ver todas as mudanças feitas no banco de dados com as requisições
+
 ## APIs
 
 ### Usuários
