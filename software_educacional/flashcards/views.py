@@ -65,8 +65,11 @@ def editar_usuario(request):
 def login_usuario(request):
     nome = request.data.get('nome')
     senha = request.data.get('senha')
+    print(nome)
+    print(senha)
 
     usuario = authenticate(request, username=nome, password=senha)
+    print(usuario)
 
     if usuario is not None:
         login(request, usuario)
@@ -157,6 +160,16 @@ def get_deck(request, id):
     
     return Response({'deck': deck, 'cardsDoDeck': cards_do_deck}, status=200)
 
+
+@csrf_exempt
+@api_view(['GET'])
+def decks_usuario(request):
+    usuario = request.user
+    decks_do_usuario = Deck.objects.filter(criador=usuario.id)
+    serializer = DeckSerializer(decks_do_usuario, many=True)
+    
+    return Response(serializer.data)
+    
 
 @csrf_exempt
 @api_view(['GET'])
