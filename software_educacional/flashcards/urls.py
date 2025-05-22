@@ -17,8 +17,8 @@ urlpatterns = [
     path('editar_deck/', views.editar_deck),
     path('deletar_deck/<int:id>', views.deletar_deck),
     path('get_deck/<int:id>', views.get_deck),
-    path('decks_usuario', views.decks_usuario),
-    path('todos_decks', views.todos_decks),
+    path('decks_usuario/', views.decks_usuario),
+    path('todos_decks/', views.todos_decks),
     # gerenciamento de cards
     path('criar_card/', views.criar_card),
     path('editar_card/', views.editar_card),

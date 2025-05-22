@@ -86,6 +86,10 @@ Deleta um deck pelo ID.
 Retorna um deck e seus cards pelo ID.  
 **Resposta:** JSON com o deck e seus cards.
 
+#### `GET decks_usuario/`
+retorna todos os decks criados pelo usuário atual.
+**Resoista:** JSON com o id, nome, numero de cards, ordem dos cards e criador
+
 #### `GET /todos_decks/`
 retorna todos os decks criados.
 **Resoista:** JSON com o id, nome, numero de cards, ordem dos cards e criador
