@@ -111,7 +111,7 @@ def criar_deck(request):
     
     try:
         novo_deck.full_clean()
-    except ValidatioError:
+    except ValidationError:
         return Response({'erro': 'Campos do deck inválidos'}, status=401)
     else:
         return Response({'deckCriado': DeckSerializer(novo_deck).data})
@@ -200,7 +200,7 @@ def criar_card(request):
         tag = Tag.objects.create(nome=request.data.get('tag'))
         try:
             tag.full_clean()
-        except ValidatioError:
+        except ValidationError:
             tag = None
             
     novo_card = Card.objects.create(frente=frente, tras=tras, imagem=imagem, deck=deck, tag=tag)
@@ -236,12 +236,12 @@ def editar_card(request):
         card.imagem = nova_imagem
     if nova_tag:
         try:
-            nova_tag = Tag.objects.get(nome=tag)
+            nova_tag = Tag.objects.get(nome=nova_tag)
         except Tag.DoesNotExist:
-            nova_tag = Tag.objects.create(nome=request.data.get('tag'))
+            nova_tag = Tag.objects.create(nome=nova_tag)
             try:
                 nova_tag.full_clean()
-            except ValidatioError:
+            except ValidationError:
                 nova_tag = None
         finally:
             card.tag = nova_tag
