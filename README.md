@@ -8,6 +8,7 @@ Backend para um aplicativo de flashcards desenvolvido para a cadeira DLSC817 - D
 2. djangorestframework
 3. django-cors-headers
 4. pillow
+5. google-genai
 
 #### para rodar o  programa, siga as seguintes instruções:
 
