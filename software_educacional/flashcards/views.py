@@ -8,6 +8,8 @@ from django.core.exceptions import ValidationError
 from .models import User, Deck, Card, Tag
 from .serializers import UserSerializer, DeckSerializer, CardSerializer
 
+from google import genai
+
 
 # usuários
 
@@ -316,4 +318,16 @@ def terminar_estudo(request):
     
     return Response({'mensagem': 'estudo encerrado com sucesso'})
 
+
+# AI
+
+@api_view(['GET'])
+def teste_ai(request):
+    client = genai.Client(api_key=":p")
     
+    response = client.models.generate_content(
+        model="gemini-2.5-flash-preview-05-20",
+        contents="Explique brevemente como IA funciona."
+    )
+    return Response({'response': response.text})
+

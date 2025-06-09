@@ -27,4 +27,6 @@ urlpatterns = [
     # realização de estudo
     path('comecar_estudo/<int:id>', views.comecar_estudo),
     path('terminar_estudo/', views.terminar_estudo),
+    # AI
+    path('teste_ai', views.teste_ai),
 ]
