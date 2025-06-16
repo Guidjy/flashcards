@@ -11,6 +11,8 @@ Backend para um aplicativo de flashcards desenvolvido para a cadeira DLSC817 - D
 5. pillow
 6. google-genai
 
+npm install react-router-dom tailwindcss@latest @tailwindcss/vite@latest daisyui@latest
+
 #### para rodar o  programa, siga as seguintes instruções:
 
 1. Baixe o código fonte ou faça o pull 

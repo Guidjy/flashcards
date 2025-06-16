@@ -303,12 +303,24 @@ def terminar_estudo(request):
 
 
 # pesquisa de decks
+
+
 @api_view(['GET'])
 def todos_decks(request):
-    decks = Deck.objects.all()
+    decks = Deck.objects.all().order_by('-likes')
     serializer = DeckSerializer(decks, many=True)
+    
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+def pesquisar_por_nome(request, nome):
+    # peep the query
+    decks = Deck.objects.filter(nome_icontains=nome).order_by('-likes')
+    serializer = DeckSerializer(decks, many=True)
+    
+    return Response(serializer.data)
+    
 
 
 # AI

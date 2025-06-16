@@ -36,3 +36,11 @@ class Card(models.Model):
     
     def __str__(self):
         return f'#{self.id})  frente: \"{self.frente}\" / tras: \"{self.tras}\" / tag: {self.tag}'
+    
+
+class Like(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='usuario')
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='deck')
+    
+    def __str__(self):
+        return f'{self.usuario} deu like em {self.deck}'
