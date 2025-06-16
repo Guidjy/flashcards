@@ -14,6 +14,7 @@ class Deck(models.Model):
     criador = models.ForeignKey(User, on_delete=models.CASCADE)
     numero_de_cards = models.IntegerField(default=0)
     ordem_dos_cards = models.JSONField(dict, default=dict)
+    likes = models.IntegerField(default=0)
     
     def __str__(self):
         return f'#{self.id}) \"{self.nome}\" - criado por {self.criador}'

@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.pagination import PageNumberPagination
 
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
@@ -166,13 +167,6 @@ def decks_usuario(request):
     serializer = DeckSerializer(decks_do_usuario, many=True)
     
     return Response(serializer.data)
-    
-
-@api_view(['GET'])
-def todos_decks(request):
-    decks = Deck.objects.all()
-    serializer = DeckSerializer(decks, many=True)
-    return Response(serializer.data)
 
 
 # Card
@@ -309,6 +303,11 @@ def terminar_estudo(request):
 
 
 # pesquisa de decks
+@api_view(['GET'])
+def todos_decks(request):
+    decks = Deck.objects.all()
+    serializer = DeckSerializer(decks, many=True)
+    return Response(serializer.data)
 
 
 
