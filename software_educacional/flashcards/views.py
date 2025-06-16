@@ -325,7 +325,7 @@ def terminar_estudo(request):
 
 @api_view(['GET'])
 def teste_ai(request):
-    client = genai.Client(api_key="AIzaSyBqoTR04zp7oonhJQfUiD4T3UhtMgG11Ds")
+    client = genai.Client(api_key=":p")
     
     response = client.models.generate_content(
         model="gemini-2.5-flash-preview-05-20",
