@@ -1,11 +1,66 @@
-# Ignorar arquivos compilados do Python
-*.pyc
+# Python bytecode
 __pycache__/
+*.py[cod]
+*$py.class
 
-# Ambientes virtuais
-.venv/
+# Django migrations (optional — keep if you want to track them)
+**/migrations/*.pyc
+**/migrations/*.pyo
+**/migrations/__pycache__/
+# Uncomment the next line to ignore migration files
+# **/migrations/*.py
+
+# Django local settings (if applicable)
+local_settings.py
+
+# SQLite database (if used)
+#db.sqlite3
+#*.sqlite3
+
+# Media uploads
+/media/
+
+# Static files (if collected)
+staticfiles/
+static/
+
+# Virtual environments
 venv/
+env/
+ENV/
+.venv/
+.env/
 
-# Arquivos de configuração de IDEs
+# Environment variables
+.env
+*.env
+
+# IDE/editor specific
 .vscode/
 .idea/
+*.sublime-workspace
+*.sublime-project
+
+# Mac/Linux/Windows system files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage and test results
+htmlcov/
+.coverage
+.tox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+
+# mypy
+.mypy_cache/
+
+# Pylint
+pylint-report.txt
+pylint-global.txt
