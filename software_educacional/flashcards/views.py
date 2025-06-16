@@ -1,9 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -19,8 +17,9 @@ import re
 
 # usuários
 
-@csrf_exempt
+
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def registrar_usuario(request):
     nome = request.data.get('nome')
     senha = request.data.get('senha')
@@ -43,9 +42,7 @@ def registrar_usuario(request):
     except Exception as e:
         return Response({'erro': str(e)}, status=400)
     
-    
-@csrf_exempt
-@login_required
+
 @api_view(['PATCH'])
 def editar_usuario(request):
     usuario = request.user
@@ -68,8 +65,8 @@ def editar_usuario(request):
     return Response({'mensagem': 'usuario editado com sucesso', 'usuario': UserSerializer(usuario).data})
     
 
-@csrf_exempt
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def login_usuario(request):
     nome = request.data.get('nome')
     senha = request.data.get('senha')
@@ -86,7 +83,6 @@ def login_usuario(request):
         return Response({'erro': 'Credenciais invalidos'}, status=401)
 
 
-@csrf_exempt
 @api_view(['GET'])
 def logout_usuario(request):
     logout(request)
@@ -108,7 +104,7 @@ def todos_usuarios(request):
 
 # Deck
 
-@csrf_exempt
+
 @api_view(['POST'])
 def criar_deck(request):
     nome = request.data.get('nome')
@@ -123,7 +119,6 @@ def criar_deck(request):
         return Response({'deckCriado': DeckSerializer(novo_deck).data})
 
 
-@csrf_exempt
 @api_view(['PATCH'])
 def editar_deck(request):
     deck = request.data.get('id')
@@ -139,8 +134,6 @@ def editar_deck(request):
         return Response({'mensagem': 'Deck editado com sucesso'}, status=200)
     
     
-
-@csrf_exempt
 @api_view(['DELETE'])
 def deletar_deck(request, id):  
     try:
@@ -152,7 +145,6 @@ def deletar_deck(request, id):
     return Response({'mensagem': 'Deck deletado com sucesso'}, status=200)
 
 
-@csrf_exempt
 @api_view(['GET'])
 def get_deck(request, id):
     try:
@@ -167,7 +159,6 @@ def get_deck(request, id):
     return Response({'deck': deck, 'cardsDoDeck': cards_do_deck}, status=200)
 
 
-@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def decks_usuario(request):
     usuario = request.user
@@ -177,7 +168,6 @@ def decks_usuario(request):
     return Response(serializer.data)
     
 
-@csrf_exempt
 @api_view(['GET'])
 def todos_decks(request):
     decks = Deck.objects.all()
@@ -187,7 +177,7 @@ def todos_decks(request):
 
 # Card
 
-@csrf_exempt
+
 @api_view(['POST'])
 def criar_card(request):
     frente = request.data.get('frente')
@@ -219,8 +209,7 @@ def criar_card(request):
         deck.save()
         return Response({'mensagem': 'Card criado com sucesso', 'card': CardSerializer(novo_card).data}, status=200)
     
-    
-@csrf_exempt
+
 @api_view(['PATCH'])
 def editar_card(request):
     card = request.data.get('id')
@@ -256,8 +245,6 @@ def editar_card(request):
     return Response({'mensagem': 'Card editado com sucesso', 'card': CardSerializer(card).data}, status=200)
         
 
-    
-@csrf_exempt
 @api_view(['DELETE'])
 def deletar_card(request, id):  
     try:
@@ -273,7 +260,6 @@ def deletar_card(request, id):
     return Response({'mensagem': 'card deletado com sucesso'}, status=200)
     
 
-@csrf_exempt
 @api_view(['GET'])
 def get_card(request, id):
     try:
@@ -287,7 +273,7 @@ def get_card(request, id):
 
 # Estudo
 
-@login_required
+
 @api_view(['GET'])
 def comecar_estudo(request, id):
     try:
@@ -308,7 +294,6 @@ def comecar_estudo(request, id):
     return Response(CardSerializer(cards_ordenados, many=True).data)
 
 
-@login_required
 @api_view(['PATCH'])
 def terminar_estudo(request):
     try:
@@ -321,6 +306,10 @@ def terminar_estudo(request):
     deck.save()
     
     return Response({'mensagem': 'estudo encerrado com sucesso'})
+
+
+# pesquisa de decks
+
 
 
 # AI

@@ -30,6 +30,7 @@ urlpatterns = [
     # realização de estudo
     path('comecar_estudo/<int:id>', views.comecar_estudo),
     path('terminar_estudo/', views.terminar_estudo),
+    # pesquisa de decks
     # AI
     path('teste_ai/', views.teste_ai),
     path('criar_teste/<int:deck_id>/<int:n_questoes>/', views.criar_teste),
