@@ -13,6 +13,7 @@ from .models import User, Deck, Card, Tag
 from .serializers import UserSerializer, DeckSerializer, CardSerializer
 
 from google import genai
+import re
 
 
 # usuários
@@ -332,4 +333,30 @@ def teste_ai(request):
         contents="Explique brevemente como IA funciona."
     )
     return Response({'response': response.text})
+
+
+@api_view(['GET'])
+def criar_teste(request, deck_id, n_questoes):
+    """
+    Cria n_questoes com base no deck de deck_id
+    """
+    try:
+        deck = Deck.objects.get(id=deck_id)
+    except Deck.DoesNotExist:
+        return Response({'erro': f'Não existe um deck com o id {deck_id}'}, status=400)
+    
+    cards_do_deck = Card.objects.filter(deck=deck)
+    card_serializer = CardSerializer(cards_do_deck, many=True)
+    
+    client = genai.Client(api_key=":p")
+    response = client.models.generate_content(
+        model="gemini-2.5-flash-preview-05-20",
+        contents=f"Crie {n_questoes} questões de prova com base no conteúdo dos seguintes flashcards, e me retorne-as em uma lista de json com os campos \"pergunta\" e \"resposta\". flashcards: {card_serializer.data}"
+    )
+    
+    # limpa a resposta
+    texto_limpo = re.search(r'\[(.*?)\]', response.text)
+    print(texto_limpo)    
+    
+    return Response({'questões': texto_limpo}, status=200)
 

@@ -32,4 +32,5 @@ urlpatterns = [
     path('terminar_estudo/', views.terminar_estudo),
     # AI
     path('teste_ai/', views.teste_ai),
+    path('criar_teste/<int:deck_id>/<int:n_questoes>/', views.criar_teste),
 ]
