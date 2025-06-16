@@ -1,8 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 from .models import User, Deck, Card, Tag
@@ -81,14 +85,12 @@ def login_usuario(request):
 
 
 @csrf_exempt
-@login_required
 @api_view(['GET'])
 def logout_usuario(request):
     logout(request)
     return Response({'messagem': 'Logout realizado com sucesso.'})
 
 
-@login_required
 @api_view(['GET'])
 def perfil_usuario(request):
     usuario = UserSerializer(request.user)
@@ -163,7 +165,7 @@ def get_deck(request, id):
     return Response({'deck': deck, 'cardsDoDeck': cards_do_deck}, status=200)
 
 
-@csrf_exempt
+@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def decks_usuario(request):
     usuario = request.user
@@ -323,7 +325,7 @@ def terminar_estudo(request):
 
 @api_view(['GET'])
 def teste_ai(request):
-    client = genai.Client(api_key=":p")
+    client = genai.Client(api_key="AIzaSyBqoTR04zp7oonhJQfUiD4T3UhtMgG11Ds")
     
     response = client.models.generate_content(
         model="gemini-2.5-flash-preview-05-20",

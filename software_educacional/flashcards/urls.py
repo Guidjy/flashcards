@@ -3,14 +3,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 urlpatterns = [
     path('', views.todos_usuarios),
     # registro, login e logout
     path('registrar/', views.registrar_usuario),
     path('editar_usuario/', views.editar_usuario),
-    path('login/', views.login_usuario),
-    path('logout/', views.logout_usuario),
+    # authentication
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('perfil', views.perfil_usuario),
     # gerenciamento de decks
     path('criar_deck/', views.criar_deck),
@@ -28,5 +31,5 @@ urlpatterns = [
     path('comecar_estudo/<int:id>', views.comecar_estudo),
     path('terminar_estudo/', views.terminar_estudo),
     # AI
-    path('teste_ai', views.teste_ai),
+    path('teste_ai/', views.teste_ai),
 ]

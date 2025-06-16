@@ -7,8 +7,9 @@ Backend para um aplicativo de flashcards desenvolvido para a cadeira DLSC817 - D
 1. django
 2. djangorestframework
 3. django-cors-headers
-4. pillow
-5. google-genai
+4. djangorestframework-simplejwt
+5. pillow
+6. google-genai
 
 #### para rodar o  programa, siga as seguintes instruções:
 
@@ -41,7 +42,7 @@ Registra um novo usuário.
 - `imagemDePerfil`: url (opcional)  
 **Resposta:** Mensagem de sucesso ou erro.
 
-#### `POST /login/`
+#### `POST /api/token/`
 Realiza login de um usuário.  
 **Campos:**
 - `nome`: string
