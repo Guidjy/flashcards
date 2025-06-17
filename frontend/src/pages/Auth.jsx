@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { Link } from "react-router-dom";
-import { login, logout } from "../services/auth";
+import { Link, useNavigate } from "react-router-dom";
+import { login, logout, register } from "../services/auth";
 
 
 export default function Auth() {
@@ -23,32 +23,40 @@ export default function Auth() {
 }
 
 
-function FormTextField({ label, placeholder, onFormEdit }) {
+function FormTextField({ id, label, placeholder, onFormEdit }) {
   return (
     <>
       <label className="label">{label}</label>
-      <input onChange={(event) => onFormEdit(event.target.value)} type="text" className="input w-full" placeholder={placeholder} />
+      <input id={id} onChange={(event) => onFormEdit(event.target.value)} type="text" className="input w-full" placeholder={placeholder} />
     </>
   )
 }
 
 
 function LoginForm({ setAuthState }) {
-  function handleFormSubmit() {
-
-  }
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
+
+  async function handleFormSubmit() {
+    const result = login(username, password);
+    if (result) {
+      navigate('/');
+    } else {
+      console.log('Login failed');
+    }
+    console.log(result);
+  }
 
   return (
     <>
       <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
         <legend className="fieldset-legend">Login</legend>
-        <FormTextField onFormEdit={setUsername} label={'Username'} placeholder={'Username'} />
-        <FormTextField onFormEdit={setPassword} label={'Password'} placeholder={'Password'} />
+        <FormTextField id='username' onFormEdit={setUsername} label={'Username'} placeholder={'Username'} />
+        <FormTextField id='password' onFormEdit={setPassword} label={'Password'} placeholder={'Password'} />
 
-        <button className="btn btn-primary my-3">Login</button>
+        <button onClick={handleFormSubmit} className="btn btn-primary my-3">Login</button>
         <div className="flex" >
           <p className="me-1">Don't have an account?</p>
           <div onClick={() => setAuthState('register')} className="underline hover:text-primary">Register</div>
@@ -66,16 +74,21 @@ function RegisterForm({ setAuthState }) {
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
+  async function handleFormSubmit() {
+    const result = register(username, email, password, passwordConfirmation);
+    //console.log(result);
+  }
+
   return (
     <>
       <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
         <legend className="fieldset-legend">Register</legend>
-        <FormTextField onFormEdit={setUsername} label={'Username'} placeholder={'Username'} />
-        <FormTextField onFormEdit={setEmail} label={'email'} placeholder={'example@email.com'} />
-        <FormTextField onFormEdit={setPassword} label={'Password'} placeholder={'Password'} />
-        <FormTextField onFormEdit={setPasswordConfirmation} label={'Password Confirmation'} placeholder={'Type your password again'} />
+        <FormTextField id='username' onFormEdit={setUsername} label={'Username'} placeholder={'Username'} />
+        <FormTextField id='email' onFormEdit={setEmail} label={'email'} placeholder={'example@email.com'} />
+        <FormTextField id='password' onFormEdit={setPassword} label={'Password'} placeholder={'Password'} />
+        <FormTextField id='password-confirmation' onFormEdit={setPasswordConfirmation} label={'Password Confirmation'} placeholder={'Type your password again'} />
 
-        <button className="btn btn-primary my-3">Register</button>
+        <button onClick={handleFormSubmit} className="btn btn-primary my-3">Register</button>
         <div className="flex" >
           <p className="me-1">Already have an account?</p>
           <div onClick={() => setAuthState('login')} className="underline hover:text-primary">Login</div>

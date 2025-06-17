@@ -306,6 +306,7 @@ def terminar_estudo(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def todos_decks(request):
     decks = Deck.objects.all().order_by('-likes')
     serializer = DeckSerializer(decks, many=True)
