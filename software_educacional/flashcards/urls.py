@@ -14,7 +14,7 @@ urlpatterns = [
     # authentication
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('perfil', views.perfil_usuario),
+    path('perfil/', views.perfil_usuario),
     # gerenciamento de decks
     path('criar_deck/', views.criar_deck),
     path('editar_deck/', views.editar_deck),

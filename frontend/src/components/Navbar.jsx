@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { userProfile } from '../services/userProfile'
 
 export default function Navbar() {
+
+  useEffect(() => {
+    const profile = userProfile();
+    console.log(profile);
+  }, []);
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-1">
