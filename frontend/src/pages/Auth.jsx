@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom";
+import { login, logout } from "../services/auth";
+
 
 export default function Auth() {
   
@@ -21,24 +23,30 @@ export default function Auth() {
 }
 
 
-function FormTextField({ label, placeholder }) {
+function FormTextField({ label, placeholder, onFormEdit }) {
   return (
     <>
       <label className="label">{label}</label>
-      <input type="text" className="input w-full" placeholder={placeholder} />
+      <input onChange={(event) => onFormEdit(event.target.value)} type="text" className="input w-full" placeholder={placeholder} />
     </>
-    
   )
 }
 
 
 function LoginForm({ setAuthState }) {
+  function handleFormSubmit() {
+
+  }
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <>
       <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
         <legend className="fieldset-legend">Login</legend>
-        <FormTextField label={'Username'} placeholder={'Username'} />
-        <FormTextField label={'Password'} placeholder={'Password'} />
+        <FormTextField onFormEdit={setUsername} label={'Username'} placeholder={'Username'} />
+        <FormTextField onFormEdit={setPassword} label={'Password'} placeholder={'Password'} />
 
         <button className="btn btn-primary my-3">Login</button>
         <div className="flex" >
@@ -52,14 +60,20 @@ function LoginForm({ setAuthState }) {
 
 
 function RegisterForm({ setAuthState }) {
+
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+
   return (
     <>
       <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
         <legend className="fieldset-legend">Register</legend>
-        <FormTextField label={'Username'} placeholder={'Username'} />
-        <FormTextField label={'email'} placeholder={'example@email.com'} />
-        <FormTextField label={'Password'} placeholder={'Password'} />
-        <FormTextField label={'Password Confirmation'} placeholder={'Type your password again'} />
+        <FormTextField onFormEdit={setUsername} label={'Username'} placeholder={'Username'} />
+        <FormTextField onFormEdit={setEmail} label={'email'} placeholder={'example@email.com'} />
+        <FormTextField onFormEdit={setPassword} label={'Password'} placeholder={'Password'} />
+        <FormTextField onFormEdit={setPasswordConfirmation} label={'Password Confirmation'} placeholder={'Type your password again'} />
 
         <button className="btn btn-primary my-3">Register</button>
         <div className="flex" >
