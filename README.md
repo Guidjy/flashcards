@@ -10,12 +10,13 @@ Backend para um aplicativo de flashcards desenvolvido para a cadeira DLSC817 - D
 4. djangorestframework-simplejwt
 5. pillow
 6. google-genai
+7. python-dotenv
 
 #### para rodar o  programa, siga as seguintes instruções:
 
 1. Baixe o código fonte ou faça o pull 
 2. inicialize um ambiente virtual de python, ative-o e baixe os pacotes:
-    #### `pip install django djangorestframework django-cors-headers pillow`
+    #### `pip install django djangorestframework django-cors-headers pillow python-dotenv`
     #### `pip install -q -U google-genai`
 3. faça cd para o diretório do projeto (deve ver flashcards, software_educacional, db.sqlite3 e manage.py)
 4. execute o seguinte comando: 
