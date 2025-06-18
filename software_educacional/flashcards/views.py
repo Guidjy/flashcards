@@ -212,7 +212,7 @@ def criar_card(request):
     imagem = request.data.get('imagem')
     
     try:
-        deck = Deck.objects.get(nome=request.data.get('deck'))
+        deck = Deck.objects.get(id=request.data.get('deck'))
     except Deck.DoesNotExist:
         return Response({'erro': 'Não existe um deck com esse nome'}, status=401)
     
@@ -369,7 +369,7 @@ def criar_teste(request, deck_id, n_questoes):
     client = genai.Client(api_key=api_key)
     response = client.models.generate_content(
         model="gemini-2.5-flash-preview-05-20",
-        contents=f"Crie {n_questoes} questões de múltipla escolha, com 4 alternativas, com base no conteúdo dos seguintes flashcards, e me retorne-as em uma lista de json com os campos \"pergunta\", \"a\", \"b\", \"c\", \"d\" e \"Resposta\". flashcards: {card_serializer.data}"
+        contents=f"Crie {n_questoes} questões de múltipla escolha, com 4 alternativas, com base no conteúdo dos seguintes flashcards, e me retorne-as em uma lista de json com os campos \"pergunta\", \"a\", \"b\", \"c\", \"d\" e \"resposta\". flashcards: {card_serializer.data}"
     )
     
     # converte resposta da prompt para json
