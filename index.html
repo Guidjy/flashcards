@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JWT Auth Example</title>
+</head>
+<body>
+    <h1>JWT Authentication Example</h1>
+
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+
+    <h2>Actions</h2>
+    <button onclick="getDecks()">Get Decks</button>
+    <button onclick="logout()">Logout</button>
+
+    <h2>Output</h2>
+    <pre id="output"></pre>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+
+        function log(message) {
+            document.getElementById('output').textContent = JSON.stringify(message, null, 2);
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            fetch(`${API_BASE}/api/token/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.access) {
+                    localStorage.setItem('access', data.access);
+                    localStorage.setItem('refresh', data.refresh);
+                    log({ message: 'Login successful', tokens: data });
+                } else {
+                    log({ error: 'Login failed', details: data });
+                }
+            })
+            .catch(err => log({ error: 'Request failed', details: err }));
+        }
+
+        function logout() {
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+            log({ message: 'Logged out' });
+        }
+
+        async function fetchWithAuth(url, options = {}) {
+            const access = localStorage.getItem('access');
+            const refresh = localStorage.getItem('refresh');
+
+            if (!access || !refresh) {
+                log({ error: 'Not logged in' });
+                throw new Error('Not logged in');
+            }
+
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers,
+                'Authorization': `Bearer ${access}`,
+            };
+
+            const response = await fetch(url, { ...options, headers });
+
+            if (response.status === 401) {
+                // Try refreshing the access token
+                const refreshResponse = await fetch(`${API_BASE}/api/token/refresh/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ refresh }),
+                });
+
+                if (refreshResponse.ok) {
+                    const data = await refreshResponse.json();
+                    localStorage.setItem('access', data.access);
+
+                    // Retry original request with new access token
+                    headers['Authorization'] = `Bearer ${data.access}`;
+                    return fetch(url, { ...options, headers });
+                } else {
+                    // Refresh failed → force logout
+                    logout();
+                    log({ error: 'Session expired. Please log in again.' });
+                    throw new Error('Session expired');
+                }
+            }
+
+            return response;
+        }
+
+        function getDecks() {
+            fetchWithAuth(`${API_BASE}/decks_usuario/`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`Error: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    log({ decks: data });
+                })
+                .catch(err => {
+                    log({ error: 'Request failed', details: err.message });
+                });
+        }
+    </script>
+</body>
+</html>
