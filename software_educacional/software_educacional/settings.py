@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-$s-#mamdkyd22l$2c8odxu3a7ynpdqp5==_j+0i_^*^p!7okzq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'flashcards-erbw.onrender.com']
 
 
 # Application definition
