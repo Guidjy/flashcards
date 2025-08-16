@@ -11,4 +11,4 @@ Flashcards
 7. Pillow
 
 # db schema
-![Database schema](flascards_db.png)
+![Database schema](flashcards_db.png)
