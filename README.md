@@ -9,3 +9,6 @@ Flashcards
 5. email-validator
 6. dotenv
 7. Pillow
+
+# db schema
+![Database schema](flascards_db.png)
