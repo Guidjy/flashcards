@@ -32,6 +32,7 @@ SECRET_KEY = getenv('SECRET_KEY')
 
 INSTALLED_APPS = [
     'accounts',
+    'flashcards',
     
     'django.contrib.admin',
     'django.contrib.auth',
