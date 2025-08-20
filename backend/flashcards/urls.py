@@ -8,6 +8,6 @@ router.register(r'decks', views.DeckViewSet)
 router.register(r'cards', views.CardViewSet)
 
 urlpatterns = [
-    path('', views.test),
     path('', include(router.urls)),
+    path('take-test/<int:deck_id>/<int:n_questions>', views.take_test),
 ]

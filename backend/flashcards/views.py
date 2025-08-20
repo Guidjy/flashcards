@@ -5,11 +5,10 @@ from rest_framework.decorators import api_view
 # objects
 from .models import Deck, Card
 from .serializers import DeckSerializer, CardSerializer
-
-
-@api_view(['GET'])
-def test(request):
-    return Response({'Success': 'api working'}, status=status.HTTP_200_OK)
+# libraries
+import os
+from google import genai
+from .utils import extract_json_from_string
 
 
 class DeckViewSet(viewsets.ModelViewSet):
@@ -20,3 +19,31 @@ class DeckViewSet(viewsets.ModelViewSet):
 class CardViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
+
+
+@api_view(['GET'])
+def take_test(request, deck_id, n_questions):
+    """
+    Generates a multiple choice test with "n_questions" based on the contents of
+    the cards of "deck_id".
+    """
+    # queries db for deck
+    try:
+        deck = Deck.objects.get(id=deck_id)
+    except Deck.DoesNotExist:
+        return Response({'error': f'Deck with id {deck_id} does not exist.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # gets cards from that deck
+    cards = deck.cards.all()
+    cards = CardSerializer(cards, many=True).data
+        
+    # makes request to the google gemini api
+    api_key = os.getenv('GENAI_API_KEY')
+    client = genai.Client(api_key=api_key)
+    response = client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=f'Based on the contents of the following flashcards, create a multiple choice test with {n_questions} questions, with each question having 4 choices, and return them in a json list in the following format:' + '{"question": <question>, "A": <choice A>, "B": <choice B>, "C": <choice C>, "D": <choice D>, "answer": <A, B, C or D>}' + f'flashcards: {cards}'
+    )
+    questions = extract_json_from_string(response.text)
+
+    return Response({'test': questions}, status=status.HTTP_200_OK)
