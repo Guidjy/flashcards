@@ -33,6 +33,7 @@ SECRET_KEY = getenv('SECRET_KEY')
 INSTALLED_APPS = [
     'accounts',
     'flashcards',
+    'deck_shop',
     
     'django.contrib.admin',
     'django.contrib.auth',
