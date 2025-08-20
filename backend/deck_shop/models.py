@@ -24,3 +24,9 @@ class Listing(models.Model):
 class ListingImage(models.Model):
     image = models.ImageField(upload_to='listing_images/')
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='images')
+    
+
+class Reaction(models.Model):
+    is_like = models.BooleanField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Reactions')
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='Reactions')
