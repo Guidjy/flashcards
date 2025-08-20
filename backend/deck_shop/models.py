@@ -16,7 +16,7 @@ class Listing(models.Model):
     likes = models.IntegerField(default=0)
     created_at = models.DateField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='listings')
-    tags = models.ManyToManyField(Tag, related_name='listings')
+    tags = models.ManyToManyField(Tag, null=True, blank=True, related_name='listings')
     
     def __str__(self):
         return f'{self.deck} listing created by {self.created_by}'
