@@ -12,5 +12,10 @@ Flashcards
 8. Pillow
 9. google-genai
 
+# npm packages
+1. tailwindcss
+2. @tailwindcss/vite
+3. daisyui
+
 # db schema
 ![Database schema](flashcards_db.png)

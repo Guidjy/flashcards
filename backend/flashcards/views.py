@@ -110,5 +110,12 @@ def view_deck_stats(request, deck_id):
     file_url = os.getenv('BACKEND_DOMAIN') + file_url
     
     return Response({'stats': file_url})
-    
+
+
+@api_view(['GET'])
+def view_friend_activity(request):
+    """
+    Gets number of cards reviewd by all of the current user's accountability partners.
+    """
+    #TODO
     
