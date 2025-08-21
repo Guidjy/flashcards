@@ -64,4 +64,22 @@ class Card(models.Model):
             deck.card_order['order'].remove(card_pk)
         
         deck.save(update_fields=['card_count', 'card_order'])
+        
+
+class Activity(models.Model):
+    cards_reviewd = models.IntegerField(default=0)
+    correct_answers = models.IntegerField(default=0)
+    date = models.DateField(auto_now_add=True)
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='activity')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activity')
     
+    def __str__(self):
+        return f'{self.user} reviewed {self.cards_reviewd} on {self.date}'
+
+
+class AccountabilityPartner(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='accountability partners 1+')
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='accountability partners 2+')
+    
+    def __str__(self):
+        return f'{self.user1} - {self.user2}'

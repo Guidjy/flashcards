@@ -3,8 +3,8 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 # objects
-from .models import Deck, Card
-from .serializers import DeckSerializer, CardSerializer
+from .models import Deck, Card, Activity, AccountabilityPartner
+from .serializers import DeckSerializer, CardSerializer, ActivitySerializer, AccountabilityPartnerSerializer
 # libraries
 import os
 from google import genai
@@ -19,6 +19,16 @@ class DeckViewSet(viewsets.ModelViewSet):
 class CardViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
+    
+
+class ActivityViewSet(viewsets.ModelViewSet):
+    queryset = Activity.objects.all()
+    serializer_class = ActivitySerializer
+    
+
+class AccountabilityPartnerViewSet(viewsets.ModelViewSet):
+    queryset = AccountabilityPartner.objects.all()
+    serializer_class = AccountabilityPartnerSerializer
 
 
 @api_view(['GET'])
@@ -47,3 +57,27 @@ def take_test(request, deck_id, n_questions):
     questions = extract_json_from_string(response.text)
 
     return Response({'test': questions}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def view_deck_stats(request, deck_id):
+    """
+    Generates a graph that shows the number of correct answers when reviewing a deck over time.
+    """
+    # queries db for deck
+    try:
+        deck = Deck.objects.get(id=deck_id)
+    except Deck.DoesNotExist:
+        return Response({'error': f'Deck with id {deck_id} does not exist.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # gets all activity related to that deck
+    activity = Activity.objects.filter(deck=deck)
+    if (len(activity) == 0):
+        return Response({'warning': 'No activity found for this deck.'}, status=status.HTTP_200_OK)
+    
+    activity = ActivitySerializer(activity, many=True)
+    print(activity)
+    
+    return Response({'stats': activity.data})
+    
+    
