@@ -16,6 +16,9 @@ Flashcards
 1. tailwindcss
 2. @tailwindcss/vite
 3. daisyui
+4. axios
+5. axios-auth-refresh
+6. react-router-dom
 
 # db schema
 ![Database schema](flashcards_db.png)
