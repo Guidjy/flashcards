@@ -32,6 +32,21 @@ class ActivityViewSet(viewsets.ModelViewSet):
 class AccountabilityPartnerViewSet(viewsets.ModelViewSet):
     queryset = AccountabilityPartner.objects.all()
     serializer_class = AccountabilityPartnerSerializer
+    
+
+@api_view(['GET'])
+def get_user_decks(request):
+    """
+    Returns all decks owned by the currently logged in user
+    """
+    user = request.user
+    if not user:
+        return Response({'error': 'No currently logged in user.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    decks = Deck.objects.filter(owned_by=user.id)
+    decks = DeckSerializer(decks, many=True)
+    
+    return Response({'decks': decks.data}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

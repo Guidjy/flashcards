@@ -4,7 +4,7 @@ export default function Navbar() {
       <div className="navbar bg-base-100 shadow-sm">
         {/*Home*/}
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <a className="btn btn-ghost text-xl">Flashcards</a>
         </div>
         {/*Deck Shop*/}
         <div className="flex-none">

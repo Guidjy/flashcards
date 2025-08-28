@@ -11,6 +11,7 @@ router.register(r'accountability-partners', views.AccountabilityPartnerViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('get-user-decks', views.get_user_decks),
     path('take-test/<int:deck_id>/<int:n_questions>', views.take_test),
     path('view-deck-stats/<int:deck_id>', views.view_deck_stats),
 ]
