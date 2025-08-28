@@ -10,3 +10,17 @@ export async function getUserDecks() {
         return false;
     }
 }
+
+
+export async function createDeck(deckName) {
+    try {
+        const response = await api.post('decks/', {
+            name: deckName,
+            owned_by: localStorage.getItem("userId")
+        });
+        return response.data;
+    } catch (error) {
+        console.log("request failed: ", error);
+        return false;
+    }
+}
