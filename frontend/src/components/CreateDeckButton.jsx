@@ -2,12 +2,12 @@
 import { Form } from "./Form"
 import { useState } from "react";
 // serivces
-import { createDeck } from "../services/decks";
+import { deckCreate } from "../services/decks";
 
 
 export default function CreateDeckButton({ onDeckCreate }) {
 
-  
+
   const [deckName, setDeckName] = useState("");
 
   const fields = [
@@ -31,7 +31,7 @@ export default function CreateDeckButton({ onDeckCreate }) {
               title="Create Deck" 
               fields={fields} 
               buttonText="Create"
-              onSubmit={async () => {await createDeck(deckName); onDeckCreate();}}
+              onSubmit={async () => {await deckCreate(deckName); onDeckCreate();}}
             />
           </div>
         </div>
