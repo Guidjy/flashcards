@@ -1,8 +1,9 @@
 from django.conf import settings
 # rest framework
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django_filters.rest_framework import DjangoFilterBackend
 # objects
 from .models import Deck, Card, Activity, AccountabilityPartner
 from .serializers import DeckSerializer, CardSerializer, ActivitySerializer, AccountabilityPartnerSerializer
@@ -22,6 +23,9 @@ class DeckViewSet(viewsets.ModelViewSet):
 class CardViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
+    
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['deck']
     
 
 class ActivityViewSet(viewsets.ModelViewSet):
