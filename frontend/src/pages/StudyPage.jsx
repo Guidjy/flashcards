@@ -1,6 +1,8 @@
 // hooks
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+// components
+import FlashCard from "../components/FlashCard";
 // services
 import { deckGet } from "../services/decks";
 import { cardsGetByDeckId } from "../services/cards";
@@ -8,7 +10,9 @@ import { cardsGetByDeckId } from "../services/cards";
 
 export default function StudyPage() {
 
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState([{}]);
+  const [cardsReviewd, setCardsReviewd] = useState(0);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
   const [deck, setDeck] = useState({});
   
   const { deckId } = useParams();
@@ -31,9 +35,15 @@ export default function StudyPage() {
 
   return (
     <>
-      {cards.map((card) => {return (
-        <h1>{card.front}</h1>
-      )})}
+      <div className="flex justify-center w-full h-screen">
+        <div className="flex flex-col items-center w-full md:w-4/5 lg:w-2/3 xl:w-1/2 p-10 md:p-15">
+          <FlashCard
+            front={cards[0].front}
+            back={cards[0].back}
+            image={cards[0].image}
+          />
+        </div>
+      </div>
     </>
   )
 }
