@@ -11,6 +11,7 @@ import { cardsGetByDeckId } from "../services/cards";
 export default function StudyPage() {
 
   const [cards, setCards] = useState([{}]);
+  const [cardCount, setCardCount] = useState(0);
   const [cardsReviewd, setCardsReviewd] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [deck, setDeck] = useState({});
@@ -22,6 +23,7 @@ export default function StudyPage() {
     async function fetchDeck(id) {
       const response = await deckGet(id);
       setDeck(response);
+      setCardCount(response.card_count);
     }
     fetchDeck(deckId);
     
@@ -35,14 +37,13 @@ export default function StudyPage() {
 
   return (
     <>
-      <div className="flex justify-center w-full h-screen">
-        <div className="flex flex-col items-center w-full md:w-4/5 lg:w-2/3 xl:w-1/2 p-10 md:p-15">
-          <FlashCard
-            front={cards[0].front}
-            back={cards[0].back}
-            image={cards[0].image}
-          />
-        </div>
+      <span className="badge absolute">{correctAnswers}/{cardCount}</span>
+      <div className="flex justify-center items-center w-full h-screen bg-base-300">
+        <FlashCard
+          front={cards[0].front}
+          back={cards[0].back}
+          image={cards[0].image}
+        />
       </div>
     </>
   )
