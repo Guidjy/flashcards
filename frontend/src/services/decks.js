@@ -35,3 +35,14 @@ export async function deckGet(deckId) {
         return false;
     }
 }
+
+
+export async function deckPatch(deckId, requestBody) {
+    try {
+        const response = await api.patch(`decks/${deckId}`, requestBody);
+        return response.data;
+    } catch (error) {
+        console.log("request failed: ", error);
+        return false;
+    }
+}

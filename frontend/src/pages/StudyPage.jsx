@@ -1,11 +1,12 @@
 // hooks
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 // components
 import FlashCard from "../components/FlashCard";
 // services
 import { deckGet } from "../services/decks";
 import { cardsGetByDeckId } from "../services/cards";
+import { createOrUpdateActivity } from "../services/activities";
 
 
 export default function StudyPage() {
@@ -18,6 +19,8 @@ export default function StudyPage() {
   const [studyFinished, setStudyFinished] = useState(false);
   
   const { deckId } = useParams();
+
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -38,7 +41,7 @@ export default function StudyPage() {
   }, [deckId]);
 
 
-    function onAnswer(correct) {
+  function onAnswer(correct) {
     let cards_copy = cards;
     if (correct) {
       // checks if all cards have been correctly answered
@@ -65,13 +68,25 @@ export default function StudyPage() {
     }
   }
 
+  
+  function endStudy() {
+    const response = createOrUpdateActivity(cardsReviewd, correctAnswers, deckId);
+    if (response !== false) {
+      navigate("/");
+    }
+  }
+
 
   return (
     <>
       <span className="badge absolute">{correctAnswers}/{cardCount}</span>
       <div className="flex justify-center items-center w-full h-screen bg-base-300">
         {studyFinished ? (
-          <h1>finished!!!1!!</h1>
+          <div className="flex flex-col items-center pt-36 rounded-2xl bg-base-100 p-5 w-11/12 md:w-4/5 lg:w-1/2 h-11/12">
+            <h1 className="text-4xl mb-5">Congratulations!</h1>
+            <h2 className="text-2xl mb-10">You have finished reviewing all cards.</h2>
+            <button className="btn btn-lg btn-primary" onClick={endStudy}>Finish Study</button>
+          </div>
         ) : (
           <FlashCard
             front={cards[0].front}

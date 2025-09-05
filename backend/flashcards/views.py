@@ -23,7 +23,6 @@ class DeckViewSet(viewsets.ModelViewSet):
 class CardViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
-    
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['deck']
     
@@ -31,6 +30,8 @@ class CardViewSet(viewsets.ModelViewSet):
 class ActivityViewSet(viewsets.ModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['user', 'deck', 'date']
     
 
 class AccountabilityPartnerViewSet(viewsets.ModelViewSet):
