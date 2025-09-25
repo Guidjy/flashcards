@@ -1,5 +1,5 @@
 # flashcards
-Flashcards
+A full stack web application for creating, sharing, and reviewing flashcards with AI-powered features.
 
 # pip packages
 1. django
