@@ -32,3 +32,14 @@ export async function createOrUpdateActivity(cardsReviewed, correctAnswers, deck
     return response.data;
 
 }
+
+
+export async function viewDeckStats(deckId) {
+    try {
+        const response = await api.get(`view-deck-stats/${deckId}`);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}

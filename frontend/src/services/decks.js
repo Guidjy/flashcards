@@ -3,7 +3,8 @@ import api from "./makeRequestWithAuth";
 
 export async function getUserDecks() {
     try {
-        const response = await api.get('get-user-decks');
+        const userId = localStorage.getItem("userId");
+        const response = await api.get(`decks/?owned_by=${userId}`);
         return response.data
     } catch (error) {
         console.log('request failed: ', error);

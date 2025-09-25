@@ -6,8 +6,10 @@ import './styles/App.css'
 import HomePage from './pages/HomePage'
 import DeckPage from './pages/DeckPage'
 import StudyPage from './pages/StudyPage'
+import DeckShopPage from './pages/DeckShopPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import TestPage from './pages/TestPage'
 
 function App() {
 
@@ -18,8 +20,10 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/deck/:deckId' element={<DeckPage />} />
           <Route path='/study/:deckId' element={<StudyPage />} />
+          <Route path='/deck-shop/' element={<DeckShopPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
+          <Route path='/take-test/:deckId/:nQuestions' element={<TestPage />} />
         </Routes>
       </Router>
     </>

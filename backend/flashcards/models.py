@@ -75,11 +75,3 @@ class Activity(models.Model):
     
     def __str__(self):
         return f'{self.user} reviewed {self.cards_reviewd} on {self.date}'
-
-
-class AccountabilityPartner(models.Model):
-    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='accountability partners 1+')
-    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='accountability partners 2+')
-    
-    def __str__(self):
-        return f'{self.user1} - {self.user2}'

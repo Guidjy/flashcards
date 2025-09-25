@@ -18,11 +18,12 @@ export default function HomePage() {
     async function fetchDecks() {
       // gets currently logged in user's decks
       const response = await getUserDecks();
+      console.log(response);
 
       // adds them to a list
       let deckList = [];
       if (response) {
-        response.decks.map((deck, index) => {
+        response.map((deck, index) => {
           deckList.push(
             <tr key={deck.id}>
               <td>{index + 1}</td>

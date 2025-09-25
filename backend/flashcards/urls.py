@@ -7,7 +7,6 @@ router = DefaultRouter()
 router.register(r'decks', views.DeckViewSet)
 router.register(r'cards', views.CardViewSet)
 router.register(r'activities', views.ActivityViewSet)
-router.register(r'accountability-partners', views.AccountabilityPartnerViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

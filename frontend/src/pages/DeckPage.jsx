@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 // services
 import { deckGet } from "../services/decks";
+import { viewDeckStats } from "../services/activities";
 // assets
 import geminiIcon from "../assets/google-gemini-icon.png";
 
@@ -15,15 +16,24 @@ export default function DeckPage() {
   
 
   const [deck, setDeck] = useState({});
+  const [deckStats, setDeckStats] = useState();
   
   const { deckId } = useParams();
 
   useEffect(() => {
+
     async function fetchDeck(id) {
       const response = await deckGet(id);
       setDeck(response);
     }
     fetchDeck(deckId);
+
+    async function fetchDeckStats(id) {
+      const response = await viewDeckStats(id);
+      setDeckStats(response.stats);
+    }
+    fetchDeckStats(deckId);
+
   }, [deckId])
 
 
@@ -50,16 +60,19 @@ export default function DeckPage() {
               </div>
             </div>
           </div>
+          <img className="h-90 mb-10" src={deckStats}></img>
           
           <Link to={`/study/${deckId}`} className="w-2/3">
             <button className="btn btn-primary w-full mb-5">Study Cards</button>
           </Link>
-          <div className="indicator w-2/3">
-            <div className="indicator-item bg-warning rounded-full px-2">
-              <img src={geminiIcon} className="h-5" alt="Gemini Icon" />
+          <Link to={`/take-test/${deckId}/5 `} className="w-2/3">
+            <div className="indicator w-full">
+              <div className="indicator-item bg-warning rounded-full px-2">
+                <img src={geminiIcon} className="h-5" alt="Gemini Icon" />
+              </div>
+              <button className="btn btn-secondary w-full">Take Test</button>
             </div>
-            <button className="btn btn-secondary w-full">Take Test</button>
-          </div>
+          </Link>
 
         </div>
         

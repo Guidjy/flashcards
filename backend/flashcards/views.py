@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django_filters.rest_framework import DjangoFilterBackend
 # objects
-from .models import Deck, Card, Activity, AccountabilityPartner
-from .serializers import DeckSerializer, CardSerializer, ActivitySerializer, AccountabilityPartnerSerializer
+from .models import Deck, Card, Activity
+from .serializers import DeckSerializer, CardSerializer, ActivitySerializer
 # libraries
 import os
 import datetime
@@ -18,6 +18,8 @@ from .utils import extract_json_from_string
 class DeckViewSet(viewsets.ModelViewSet):
     queryset = Deck.objects.all()
     serializer_class = DeckSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['owned_by']
     
 
 class CardViewSet(viewsets.ModelViewSet):
@@ -32,11 +34,6 @@ class ActivityViewSet(viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['user', 'deck', 'date']
-    
-
-class AccountabilityPartnerViewSet(viewsets.ModelViewSet):
-    queryset = AccountabilityPartner.objects.all()
-    serializer_class = AccountabilityPartnerSerializer
     
 
 @api_view(['GET'])
@@ -108,16 +105,16 @@ def view_deck_stats(request, deck_id):
         return Response({'warning' 'Deck has only been reviewed once this month. Try again after reviewing another day.'}, status=status.HTTP_200_OK)
     
     # gets plot data
-    graph_axes = {'dates': [], 'correct_answers': []}
+    graph_axes = {'dates': [], 'cards_reviewed': []}
     for activity in activities:
         graph_axes['dates'].append(activity.date.day)
-        graph_axes['correct_answers'].append(activity.correct_answers)
+        graph_axes['cards_reviewed'].append(activity.cards_reviewd)
         
     # plots the graph
     fig, ax = plt.subplots()
-    ax.plot(graph_axes['dates'], graph_axes['correct_answers'], color='blue')       
+    ax.plot(graph_axes['dates'], graph_axes['cards_reviewed'], color='blue')       
     ax.set_xlabel("Date")
-    ax.set_ylabel("Correct Answers")
+    ax.set_ylabel("Cards reviewed")
     
     # saves graph to disk
     save_dir = os.path.join(settings.MEDIA_ROOT, 'stat_graphs')
@@ -130,12 +127,4 @@ def view_deck_stats(request, deck_id):
     file_url = os.getenv('BACKEND_DOMAIN') + file_url
     
     return Response({'stats': file_url})
-
-
-@api_view(['GET'])
-def view_friend_activity(request):
-    """
-    Gets number of cards reviewd by all of the current user's accountability partners.
-    """
-    #TODO
     
