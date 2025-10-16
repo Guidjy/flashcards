@@ -9,8 +9,9 @@ A full stack web application for creating, sharing, and reviewing flashcards wit
 5. django-filter
 6. email-validator
 7. dotenv
-8. Pillow
-9. google-genai
+8. matplotlib
+9. Pillow
+10. google-genai
 
 # npm packages
 1. tailwindcss
