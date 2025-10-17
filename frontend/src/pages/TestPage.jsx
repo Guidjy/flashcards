@@ -3,16 +3,20 @@ import MainLayout from "../layouts/MainLayout";
 // hooks
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // services
 import api from "../services/makeRequestWithAuth";
 // components
 import TestQuestion from "../components/TestQuestion";
+import TestQuestionSkeleton from "../components/TestQuestionSkeleton";
 
 
 export default function TestPage() {
   const { deckId, nQuestions } = useParams();
   const [loading, setLoading] = useState(false);
   const [test, setTest] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function takeTest() {
@@ -26,13 +30,18 @@ export default function TestPage() {
 
   return (
     <>
-      <div className="flex justify-center w-full bg-base-300 p-5">
-        <div className="bg-base-100 p-5 md:p-10 min-h-screen w-full md:w-3/4 lg:w-1/2 rounded-3xl">
-          {loading ? (
-            <span className="loading loading-spinner text-primary"></span>
-          ) : (
-            test.map((question, index) => (
-              {/* FIX TS */}
+    <MainLayout>
+      <div className="bg-base-100 p-5 md:p-10 min-h-screen rounded-3xl">
+        {loading ? (
+          <>
+            {/* FaceBook hates for loops so you have to do this bullshit to render the same component n times*/}
+            {Array.from({ length: Number(nQuestions) }).map((question, index) => (
+              <TestQuestionSkeleton key={index}/>
+            ))}
+          </>
+        ) : (
+          test.map((question, index) => (
+            <>
               <TestQuestion
                 key={index}
                 question={question.question}
@@ -41,11 +50,17 @@ export default function TestPage() {
                 number={index}
               />
               <div className="divider"></div>
-            )
-          ))
-        }
-        </div>
+            </>
+          )
+        ))
+      }
+      <div className="flex justify-center w-full">
+        <button className="btn btn-primary w-2/3" onClick={() => (navigate('/'))}>
+          Finish Test
+        </button>
       </div>
+      </div>
+    </MainLayout>
     </>
   );
 }
