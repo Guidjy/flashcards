@@ -55,7 +55,9 @@ export default function DeckPage() {
                 <div className="stat-title">Total cards</div>
                 <div className="stat-value text-primary">{deck.card_count}</div>
                  <div className="stat-desc">
-                  browse cards
+                  <Link className="link link-info" to={`/add-cards/${deckId}`}>
+                    Add Cards
+                  </Link>
                 </div>
               </div>
             </div>

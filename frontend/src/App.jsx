@@ -5,6 +5,7 @@ import './styles/App.css'
 // pages
 import HomePage from './pages/HomePage'
 import DeckPage from './pages/DeckPage'
+import CreateCardPage from './pages/CreateCardPage'
 import StudyPage from './pages/StudyPage'
 import DeckShopPage from './pages/DeckShopPage'
 import LoginPage from './pages/LoginPage'
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/deck/:deckId' element={<DeckPage />} />
+          <Route path='/add-cards/:deckId' element={<CreateCardPage />} />
           <Route path='/study/:deckId' element={<StudyPage />} />
           <Route path='/deck-shop/' element={<DeckShopPage />} />
           <Route path='/login' element={<LoginPage />} />

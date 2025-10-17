@@ -40,8 +40,19 @@ export async function deckGet(deckId) {
 
 export async function deckPatch(deckId, requestBody) {
     try {
-        const response = await api.patch(`decks/${deckId}`, requestBody);
+        const response = await api.patch(`decks/${deckId}/`, requestBody);
         return response.data;
+    } catch (error) {
+        console.log("request failed: ", error);
+        return false;
+    }
+}
+
+
+export async function deckDelete(deckId) {
+    try {
+        const response = await api.delete(`decks/${deckId}/`);
+        return response.data
     } catch (error) {
         console.log("request failed: ", error);
         return false;

@@ -23,7 +23,11 @@ export function FormField({label, type, placeholder, onChange}) {
   return (
     <>
       <label className="label">{label}</label>
-      <input type={type} onChange={onChange} className="input mb-2 w-full" placeholder={placeholder} />
+      {type === "file" ? (
+        <input type={type} onChange={onChange} className="file-input file-input-primary mb-2 w-full" placeholder={placeholder} />
+      ) : (
+        <input type={type} onChange={onChange} className="input mb-2 w-full" placeholder={placeholder} />
+      )}
     </>
   );
 }
