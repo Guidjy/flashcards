@@ -3,25 +3,45 @@ A full stack web application for creating, sharing, and reviewing flashcards wit
 
 ## How to execute:
 1. Open a terminal and create a virtual environment:
-```python3 -m venv .venv```
+```
+python3 -m venv .venv
+```
 2. Activate the virtual environment:
-```source .venv/bin/activate```
+```
+source .venv/bin/activate
+```
 3. Install Python packages
-```pip install -r requirements.txt```
+```
+pip install -r requirements.txt
+```
 4. Access the Django REST framework project:
-```cd backend/```
-5. Add your Google Gemini API key to the .env file
-```GENAI_API_KEY=<YOUR_API_KEY>```
+```
+cd backend/
+```
+5. (Optional) Add your Google Gemini API key to the .env file to generate tests based on the contents of your decks
+```
+GENAI_API_KEY=<YOUR_API_KEY>
+```
 6. Execute the API:
-```python manage.py runserver```
+```
+python manage.py runserver
+```
 7. Open up a new terminal and access the React project:
-```cd frontend/```
+```
+cd frontend/
+```
 8. Install node packages:
-```npm install```
+```
+npm install
+```
 9. Build the project:
-```npm run build```
+```
+npm run build
+```
 10. Preview the interface;
-```npm run preview```
+```
+npm run preview
+```
 
 ## db schema
 ![Database schema](flashcards_db.png)
